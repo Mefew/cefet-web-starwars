@@ -10,11 +10,23 @@ $.ajax({
   success: function(resposta) {
     //let qtdeFilmes = resposta.count;
     let filmes = resposta.results;
-    let htmlListaDeFilmes = document.getElementById('movies').getElementsByTagName('ul');
+    let ulListaDeFilmes = document.getElementById('movies').getElementsByTagName('ul');
     for (var filme of filmes) {
-      htmlListaDeFilmes.append("<li data-episode-url=\"http://swapi.co/api/films/"+filme.episode_id
-          +"/\">Episode "+filme.episode_id+ ": "+ filme.title "</li> ");
-      //<li data-episode-url="http://swapi.co/api/films/4/">Episode I</li>
+      $("ul").append  ("<li data-episode-url=\"http://swapi.co/api/films/"+filme.episode_id +"/\">Episode "+filme.episode_id+ ": "+ filme.title + "</li> ");
 
+      //$("ul").append("<li data-episode-url=\"http://swapi.co/api/films/7/\">Episodio 7</li>");
+      //$("ul").append("Cobrão é viadão");
+      //Episode "+filme.episode_id+ ": "+ filme.title "
     }
-}});
+  }
+});
+
+$('#movies').on('click', 'li', function(e) {
+  movie_url = this.getAttribute("data-episode-url");
+  
+  $.ajax({url: 'http://swapi.co/api/films', method: 'GET', success: function(resposta) {
+
+  }
+  });
+
+});
