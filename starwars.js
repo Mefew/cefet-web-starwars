@@ -3,30 +3,30 @@
 // para carregar:
 //  - A lista de filmes
 //  - A introdução de cada filme, quando ele for clicado
+let textosDeAbertura = [];
 
 $.ajax({
   url: 'http://swapi.co/api/films',
   method: 'GET',
   success: function(resposta) {
-    //let qtdeFilmes = resposta.count;
     let filmes = resposta.results;
     let ulListaDeFilmes = document.getElementById('movies').getElementsByTagName('ul');
-    for (var filme of filmes) {
-      $("ul").append  ("<li data-episode-url=\"http://swapi.co/api/films/"+filme.episode_id +"/\">Episode "+filme.episode_id+ ": "+ filme.title + "</li> ");
 
-      //$("ul").append("<li data-episode-url=\"http://swapi.co/api/films/7/\">Episodio 7</li>");
-      //$("ul").append("Cobrão é viadão");
-      //Episode "+filme.episode_id+ ": "+ filme.title "
+    for (var filme of filmes) {
+        //if (filme == filmes[0])
+        $("ul").append  ("<li id=\'episode"+ filme.episode_id + "\' data-episode-url=\"http://swapi.co/api/films/"+filme.episode_id +"/\">Episode "+filme.episode_id+ ": "+ filme.title + "</li> ");
+        textosDeAbertura[filme.episode_id] = "Episode " + filme.episode_id + "\n" + filme.title.toUpperCase() + "\n\n" + filme.opening_crawl;
     }
+
+    if (sessionStorage.getItem('historico') != null)
+        $("pre").html(textosDeAbertura[ sessionStorage.getItem('historico') ]);
   }
 });
 
 $('#movies').on('click', 'li', function(e) {
-  movie_url = this.getAttribute("data-episode-url");
-  
-  $.ajax({url: 'http://swapi.co/api/films', method: 'GET', success: function(resposta) {
+  let string = this.getAttribute("id");
+  string = string.substring(7);
+  $("pre").html(textosDeAbertura[string]);
 
-  }
-  });
-
+  sessionStorage.setItem('historico', string);
 });
