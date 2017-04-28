@@ -6,7 +6,7 @@
 let textosDeAbertura = [];
 
 $.ajax({
-  url: 'http://swapi.co/api/films',
+  url: 'https://swapi.co/api/films/',
   method: 'GET',
   success: function(resposta) {
     let filmes = resposta.results;
